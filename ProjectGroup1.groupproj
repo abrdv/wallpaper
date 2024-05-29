@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D56189BF-D802-45CB-BF8A-9FA9C9D2392A}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PWPCH.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PWPCH">
+        <MSBuild Projects="PWPCH.dproj"/>
+    </Target>
+    <Target Name="PWPCH:Clean">
+        <MSBuild Projects="PWPCH.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PWPCH:Make">
+        <MSBuild Projects="PWPCH.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PWPCH"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PWPCH:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PWPCH:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
