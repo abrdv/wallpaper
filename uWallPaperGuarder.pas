@@ -54,6 +54,8 @@ type
       procedure SaveSettings(ApathSource: String; AspanPause: Integer);
       property Active: Boolean read FReady write SetActive;
       property Settings: TWallPaperSettings read FSettings;
+      procedure Refresh;
+
   end;
 implementation
 
@@ -239,6 +241,15 @@ begin
      until FindNext(SR) <> 0;
      FindClose(SR);
    end;
+end;
+
+procedure TWallPaperGuarder.Refresh;
+begin
+  if Settings=nil then exit;
+  if listoffiles=nil then exit;
+  getallf(Settings.pathSource);
+  if listoffiles.Count=0 then begin setUnworkable; exit; end;
+  setWorkable;
 end;
 
 procedure TWallPaperGuarder.TimerChangerEvent(Sender: TObject);

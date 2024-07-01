@@ -61,6 +61,7 @@ procedure TFWallPaper.FormCreate(Sender: TObject);
 begin
   WallPaperGuarder := TWallPaperGuarder.Create;
   WallPaperGuarder.LoadSettings;
+  WallPaperGuarder.Refresh;
 end;
 
 procedure TFWallPaper.FormDestroy(Sender: TObject);
