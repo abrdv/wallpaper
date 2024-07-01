@@ -4,7 +4,8 @@ program PWPCH;
 
 uses
   Vcl.Forms,
-  UWPCH in 'UWPCH.pas' {FWallPaper};
+  UWPCH in 'UWPCH.pas' {FWallPaper},
+  uWallPaperGuarder in 'uWallPaperGuarder.pas';
 
 {$R *.res}
 

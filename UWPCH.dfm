@@ -12,6 +12,7 @@ object FWallPaper: TFWallPaper
   Font.Style = []
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   TextHeight = 13
   object JvDirectoryEdit1: TJvDirectoryEdit
@@ -45,12 +46,12 @@ object FWallPaper: TFWallPaper
     TickMarks = tmBoth
     StyleElements = [seFont, seClient]
     ToolTipSide = tsBottom
+    OnChanged = JvTrackBar1Changed
     ExplicitTop = 22
     ExplicitWidth = 225
   end
   object JvTimer1: TJvTimer
     Enabled = False
-    OnTimer = JvTimer1Timer
     Left = 96
     Top = 8
   end
@@ -376,5 +377,10 @@ object FWallPaper: TFWallPaper
     OnHotKey = JvApplicationHotKey1HotKey
     Left = 184
     Top = 24
+  end
+  object JvTimer2: TJvTimer
+    Enabled = False
+    Left = 96
+    Top = 40
   end
 end
