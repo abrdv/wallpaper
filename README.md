@@ -2,7 +2,7 @@
 - uSNGLTN - simple singleton base unit
 - uUtils - util unit, can be throw away
 - uTimerThread - simple thread based timer
-- uLogit - log unit, can be used **function logapp: tlogmanager;**
+- uLogit - log unit based on uSNGLTN, can be used ```function logapp: tlogmanager;```
 - uWallPaperGuarder - main class 
 - UWPCH - Tform for manage
 ## Examples
