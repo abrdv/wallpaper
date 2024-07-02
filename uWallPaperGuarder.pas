@@ -142,12 +142,14 @@ begin
 
     FTChanger := TTimerThread.Create;
     FTChanger.Enabled := false;
-    FTChanger.Interval := Settings.spanPause * valueOfSecond * valueOfMinute;
+    FTChanger.Interval := Settings.spanPause *
+      valueOfSecond * valueOfMinute;
     FTChanger.OnTimerEvent := TimerChangerEvent;
 
     FTWaiter := TTimerThread.Create;
     FTWaiter.Enabled:=false;
-    FTWaiter.Interval := Settings.spanPause * valueOfSecond * valueOfMinute;
+    FTWaiter.Interval := Settings.spanPause * koefOfWaiting *
+      valueOfSecond * valueOfMinute;
     FTWaiter.OnTimerEvent:=TimerWaiterEvent;
   except
     on e: Exception do
@@ -248,8 +250,10 @@ begin
   if Settings=nil then exit;
   if listoffiles=nil then exit;
   getallf(Settings.pathSource);
-  if listoffiles.Count=0 then begin setUnworkable; exit; end;
-  setWorkable;
+  if listoffiles.Count=0 then
+    setUnworkable
+  else
+    setWorkable;
 end;
 
 procedure TWallPaperGuarder.TimerChangerEvent(Sender: TObject);
@@ -261,9 +265,7 @@ end;
 procedure TWallPaperGuarder.TimerWaiterEvent(Sender: TObject);
 begin
   FTWaiter.Enabled := false;
-  getallf(Settings.pathSource);
-  if listoffiles.Count=0 then begin setUnworkable; exit; end;
-  setWorkable;
+  Refresh;
 end;
 
 procedure TWallPaperGuarder.setUnworkable;
