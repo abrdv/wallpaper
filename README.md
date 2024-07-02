@@ -7,12 +7,23 @@
 - UWPCH - Tform for manage
 ## Examples
 use uLogit
-```Pascal {
+```Pascal 
 uses ...uLogit;
-
+...
 Logapp.writetolog(strErrorCreateFormText);
+```
+use TWallPaperGuarder
+```Pascal 
+uses ...uWallPaperGuarder;
+...
+var  WallPaperGuarder: TWallPaperGuarder;
+...
+begin
+WallPaperGuarder := TWallPaperGuarder.Create;
+WallPaperGuarder.Refresh;
+end;
+```
 
-}```
 ## ToDo
 
 - [ ] list of directorys to find jpg
