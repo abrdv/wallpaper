@@ -1,4 +1,4 @@
-# Application for change wallpaper on Windows desctop
+## Application for change wallpaper on Windows desktop
 - uSNGLTN - simple singleton base unit
 - uUtils - util unit, can be throw away
 - uTimerThread - simple thread based timer
