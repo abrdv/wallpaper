@@ -50,11 +50,6 @@ object FWallPaper: TFWallPaper
     ExplicitTop = 22
     ExplicitWidth = 225
   end
-  object JvTimer1: TJvTimer
-    Enabled = False
-    Left = 96
-    Top = 8
-  end
   object JvTrayIcon1: TJvTrayIcon
     Active = True
     Animated = True
@@ -377,10 +372,5 @@ object FWallPaper: TFWallPaper
     OnHotKey = JvApplicationHotKey1HotKey
     Left = 184
     Top = 24
-  end
-  object JvTimer2: TJvTimer
-    Enabled = False
-    Left = 96
-    Top = 40
   end
 end

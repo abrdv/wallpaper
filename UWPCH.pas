@@ -3,22 +3,38 @@ unit UWPCH;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
-  Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Mask,
-  JvExComCtrls, JvComCtrls, JvComponentBase, JvTrayIcon, JvTimer, JvToolEdit,
-  JvExMask, JvAppHotKey, JvShellHook,
-  uWallPaperGuarder, uLogit, System.Classes;
+  Winapi.Windows,
+  System.Classes,
+  System.SysUtils,
+  Winapi.Messages,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.ComCtrls,
+  Vcl.StdCtrls,
+  Vcl.Mask,
+
+  JvExComCtrls,
+  JvComCtrls,
+  JvComponentBase,
+  JvTrayIcon,
+  JvToolEdit,
+  JvAppHotKey,
+  JvShellHook,
+  JvExMask,
+
+  uWallPaperGuarder,
+  uLogit;
 
 
 type
   TFWallPaper = class(TForm)
     JvDirectoryEdit1: TJvDirectoryEdit;
-    JvTimer1: TJvTimer;
     JvTrayIcon1: TJvTrayIcon;
     JvTrackBar1: TJvTrackBar;
     JvShellHook1: TJvShellHook;
     JvApplicationHotKey1: TJvApplicationHotKey;
-    JvTimer2: TJvTimer;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure JvApplicationHotKey1HotKey(Sender: TObject);
@@ -59,8 +75,13 @@ end;
 
 procedure TFWallPaper.FormCreate(Sender: TObject);
 begin
-  WallPaperGuarder := TWallPaperGuarder.Create;
-  WallPaperGuarder.Refresh;
+  try
+    WallPaperGuarder := TWallPaperGuarder.Create;
+    WallPaperGuarder.Refresh;
+  except
+    on e: Exception do
+      logapp.writetolog('Ошибка при создании сменщика обоев. '+e.Message);
+  end;
 end;
 
 procedure TFWallPaper.FormDestroy(Sender: TObject);
@@ -73,6 +94,7 @@ begin
   if WallPaperGuarder<>nil then
   begin
     try
+      WallPaperGuarder.setUnworkable;
       JvDirectoryEdit1.Directory:=WallPaperGuarder.Settings.pathSource;
       JvDirectoryEdit1.Flat:=true;
       JvDirectoryEdit1.InitialDir:=WallPaperGuarder.Settings.pathSource;
@@ -81,7 +103,10 @@ begin
       JvTrackBar1.Position:=WallPaperGuarder.Settings.spanPause;
       WallPaperGuarder.setWorkable;
     except
-      WallPaperGuarder.setUnworkable;
+      on e: Exception do
+      begin
+        logapp.writetolog('Ошибка перехода в рабочее состояние сменщика обоев. '+e.Message);
+      end;
     end;
   end else
   begin

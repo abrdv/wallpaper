@@ -44,13 +44,13 @@ type
       function putwp: Boolean;
 
       property ListOfFiles: TStringList read FListOfFiles;
-
+      property Ready: Boolean read FReady write FReady;
     public
       constructor Create;
       destructor Destroy;
       procedure LoadSettings;
-      procedure setUnworkable;
-      procedure setWorkable;
+      function setUnworkable: boolean;
+      function setWorkable: boolean;
       procedure SaveSettings(ApathSource: String; AspanPause: Integer);
       property Active: Boolean read FReady write SetActive;
       property Settings: TWallPaperSettings read FSettings;
@@ -215,10 +215,6 @@ begin
   except
     on e : Exception do
     begin
-      {
-      Application.MessageBox(Pchar(strErrorWallpaperchangeText+'. '+e.Message),
-        strErrorWallpaperchangeTitle, MB_OK or MB_ICONERROR);
-      }
       logapp.writetolog(strErrorChangeWPText);
     end;
   end;
@@ -258,27 +254,47 @@ end;
 
 procedure TWallPaperGuarder.TimerChangerEvent(Sender: TObject);
 begin
-  FTChanger.Enabled := putwp;
-  FTWaiter.Enabled := not FTChanger.Enabled;
+  try
+    FTChanger.Enabled := putwp;
+    FTWaiter.Enabled := not FTChanger.Enabled;
+  except
+    Ready:=false;
+  end;
 end;
 
 procedure TWallPaperGuarder.TimerWaiterEvent(Sender: TObject);
 begin
-  FTWaiter.Enabled := false;
-  Refresh;
+  try
+    FTWaiter.Enabled := false;
+    Refresh;
+  except
+    Ready:=false;
+  end;
 end;
 
-procedure TWallPaperGuarder.setUnworkable;
+function TWallPaperGuarder.setUnworkable: boolean;
 begin
-  FTChanger.Enabled := false;
-  FTWaiter.Enabled := not FTChanger.Enabled;
+  try
+    Ready:=false;
+    FTChanger.Enabled := false;
+    FTWaiter.Enabled := not FTChanger.Enabled;
+    Ready:=true;
+  finally
+     result:=Ready;
+  end;
 end;
 
-procedure TWallPaperGuarder.setWorkable;
+function TWallPaperGuarder.setWorkable: boolean;
 begin
-  FTChanger.Enabled := putwp;
-  FTWaiter.Enabled := not FTChanger.Enabled;
-  if not FTChanger.Enabled then setUnworkable;
+  try
+    Ready:=false;
+    FTChanger.Enabled := putwp;
+    FTWaiter.Enabled := not FTChanger.Enabled;
+    if not FTChanger.Enabled then setUnworkable;
+    Ready:=true;
+  finally
+     result:=Ready;
+  end;
 end;
 
 end.
